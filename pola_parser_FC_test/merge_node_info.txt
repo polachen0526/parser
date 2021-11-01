@@ -27,7 +27,7 @@
 0 pool_address            0
 0 Leaky_ReLU_alpha        -1.000000000000000000
 0 Have_BatchNormalization 1
-0 Have_ReLU               0
+0 Have_ReLU               1
 0 Have_Flatten            1
 0 Have_Dense              0
 0 Have_Maxpooling         0
@@ -38,7 +38,7 @@
 0 node name               conv2d
 0 Previous_node_OCH       16
 0 Is_LeakyReLU            0
-0 Batch_First             1
+0 Batch_First             0
 0 quant_batch_bias        10
 0 quant_finish            0
 0 pooling_quant_finish    0
@@ -62,7 +62,7 @@
 1 input_feature_size      4
 1 output_channel          160
 1 output_feature_size     1
-1 kernel_size             -1
+1 kernel_size             1
 1 kernel_stride           -1
 1 padding                 none
 1 activate                relu
@@ -86,7 +86,7 @@
 1 pool_address            0
 1 Leaky_ReLU_alpha        -1.000000000000000000
 1 Have_BatchNormalization 0
-1 Have_ReLU               0
+1 Have_ReLU               1
 1 Have_Flatten            0
 1 Have_Dense              1
 1 Have_Maxpooling         0
@@ -96,7 +96,7 @@
 1 weight name             dense
 1 node name               dense
 1 Is_LeakyReLU            0
-1 Batch_First             0
+1 Batch_First             1
 1 quant_batch_bias        10
 1 quant_finish            0
 1 pooling_quant_finish    0
@@ -120,7 +120,7 @@
 2 input_feature_size      1
 2 output_channel          10
 2 output_feature_size     1
-2 kernel_size             -1
+2 kernel_size             1
 2 kernel_stride           -1
 2 padding                 none
 2 activate                relu
@@ -144,7 +144,7 @@
 2 pool_address            0
 2 Leaky_ReLU_alpha        -1.000000000000000000
 2 Have_BatchNormalization 0
-2 Have_ReLU               0
+2 Have_ReLU               1
 2 Have_Flatten            0
 2 Have_Dense              1
 2 Have_Maxpooling         0
@@ -154,7 +154,7 @@
 2 weight name             dense_1
 2 node name               dense_1
 2 Is_LeakyReLU            0
-2 Batch_First             0
+2 Batch_First             1
 2 quant_batch_bias        10
 2 quant_finish            0
 2 pooling_quant_finish    0

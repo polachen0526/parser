@@ -358,7 +358,7 @@ void pstruct::algorithm_for_Dense(const std::shared_ptr<pstruct> &merge_node,con
 }
 void pstruct::algorithm_for_basic_conv(const std::shared_ptr<pstruct> &merge_node,const size_t &Depth_select,const size_t &once_cal_weight_num_select,const size_t &times_calc,const size_t &OCH_NUM,const size_t &ICH_NUM, const size_t &HW_KERNEL_SIZE,const std::vector<std::vector<float>> &data_in,std::vector<short> &weight_data){
     std::ofstream ofs;
-    ofs.open("test_conv.txt");
+    ofs.open(merge_node->node_name+".txt");
     size_t kernel_count = 0;
     for(size_t och_count = 0;och_count<OCH_NUM;och_count++){//為了要一次輸出可以連續，你必須把東西猜開放到不同的bank，才能把資料連續傳送，舉例來說，如果你要傳0-7但是你又放在同一個bank那你沒辦法一次傳，所以正常連續擺放會變成一個bank0-8-15-23-...第二個1-9-16-24-...第三個2-10-17-25-...這樣才可以讓AXI拿到連續的資料雖然看起來很怪，但是每個bank確實可以一次丟一筆資料出去
         size_t index;
@@ -597,7 +597,7 @@ void pstruct::fc_divd ( int32_t node, int32_t &dimx, int32_t &dimy, int32_t &dim
 std::vector<std::shared_ptr<pstruct>>pstruct::layer_info_data_vector_trace(const std::vector<json>&layer_info_data_vector){
     std::vector<std::shared_ptr<pstruct>> layer_info_data_pointer_vector;
     std::vector<int32_t>Concat_output_control_location_inside;
-    std::vector<int32_t>Concat_output_control_location_inside_total;
+    std::vector<int32_t>concat_result_node_list;
     for(auto layer_info : layer_info_data_vector){
         std::cout<<layer_info["class_name"]<<std::endl;
         std::shared_ptr<pstruct> temp = std::make_shared<pstruct>();
@@ -622,6 +622,7 @@ std::vector<std::shared_ptr<pstruct>>pstruct::layer_info_data_vector_trace(const
             temp->pool_padding        = s_none; //s
             temp->pool_stride         = n_none;
             temp->node_name           = layer_info["config"]["name"];
+            temp->Have_ReLU           = temp->activate=="relu" ? true : false;
         }
         if(layer_info["class_name"]=="MaxPooling2D"){
             temp->class_name          = (!layer_info["class_name"].empty())                     ? layer_info["class_name"]                     : (json)s_none; //s
@@ -679,16 +680,17 @@ std::vector<std::shared_ptr<pstruct>>pstruct::layer_info_data_vector_trace(const
             temp->activate            = (!layer_info["config"]["activation"].empty())           ? layer_info["config"]["activation"]           : (json)s_none; //s
             temp->Have_bias           = (!layer_info["config"]["use_bias"].empty())             ? layer_info["config"]["use_bias"]             : (json)false ; //bool
             temp->units               = (!layer_info["config"]["units"].empty())                ? layer_info["config"]["units"]                : (json)n_none; 
+            temp->kernel_size         = 1;
             temp->input_feature_size  = n_none;
             temp->input_channel       = n_none;
-            temp->output_channel      = n_none; 
-            temp->kernel_size         = n_none; 
+            temp->output_channel      = n_none;  
             temp->kernel_stride       = n_none; 
             temp->padding             = s_none; //s
             temp->pool_size           = n_none;
             temp->pool_padding        = s_none; //s
             temp->pool_stride         = n_none;
             temp->Have_Dense          = true;
+            temp->Have_ReLU           = temp->activate=="relu" ? true : false;
             temp->node_name           = layer_info["config"]["name"];
         }
         if(layer_info["class_name"]=="BatchNormalization"){
@@ -718,7 +720,13 @@ std::vector<std::shared_ptr<pstruct>>pstruct::layer_info_data_vector_trace(const
         temp->Concat_output_control = (scan_result_map.size()!=0) ? scan_result_map[layer_info["name"]] : 0;
         if(temp->Concat_output_control){
             Concat_output_control_location_inside.push_back((layer_info_data_pointer_vector.size()));//如果有前面有節點要做分支，那就會知道這個位置我要儲存，之後抓weight的時候我們可以直接回推，反之沒有的話這邊本來就應該是-1
-            Concat_output_control_location_inside_total.push_back((layer_info_data_pointer_vector.size()));//如果有前面有節點要做分支，那就會知道這個位置我要儲存，之後抓weight的時候我們可以直接回推，反之沒有的話這邊本來就應該是-1
+        }
+        for(auto i : concat_map_vector){
+            if(layer_info["name"]==i.first){
+                temp->concat_node = 1;
+                concat_result_node_list.push_back((layer_info_data_pointer_vector.size()));//如果有前面有節點要做分支，那就會知道這個位置我要儲存，之後抓weight的時候我們可以直接回推，反之沒有的話這邊本來就應該是-1
+                std::cout<<"cocat_map_vector "<<temp->node_name<<" "<<temp->concat_node<<" "<<layer_info_data_pointer_vector.size()<<std::endl;
+            }
         }
         //給後面去需要前面資訊的節點
         for(auto i : scan_result_branch_node_map){
@@ -729,16 +737,10 @@ std::vector<std::shared_ptr<pstruct>>pstruct::layer_info_data_vector_trace(const
                     Concat_output_control_location_inside.pop_back();
                 }
                 else
-                    temp->branch_node_location = Concat_output_control_location_inside_total;
+                    temp->branch_node_location = concat_result_node_list;
                 for(auto i : temp->branch_node_location){
                     std::cout<<temp->node_name<<" "<<i<<std::endl;
                 }
-            }
-        }
-        for(auto i : concat_map_vector){
-            if(layer_info["name"]==i.first){
-                temp->concat_node = 1;
-                std::cout<<temp->node_name<<" "<<temp->concat_node<<std::endl;
             }
         }
         layer_info_data_pointer_vector.push_back(temp);
@@ -824,6 +826,7 @@ void pstruct::weight_offset(std::vector<std::shared_ptr<pstruct>> &layer_info_da
                 else{
                     for(auto index : pre_location_vec){
                         input_channel += layer_info_data_pointer_vector[index]->output_channel;
+                        std::cout<<"CHECK!!!!! PRE_NODE~~~~~"<<layer_info_data_pointer_vector[index]->output_channel<<std::endl;
                     }
                 }
                 for(auto index : pre_location_vec){
@@ -880,13 +883,7 @@ void pstruct::weight_offset(std::vector<std::shared_ptr<pstruct>> &layer_info_da
                 }
                 else ofs = ifs;
                 size_t weight_of_kernel,weight_of_AB;
-                if(Kernel_Size==3){
-                    weight_of_kernel = round_ch_8(input_channel)*round_ch_8(output_channel)*std::pow(Kernel_Size,2)*DATA_DEPTH*DATA_DEPTH*DATA_WIDTH;
-                    weight_of_AB     = round_ch_8(output_channel)*DATA_DEPTH*2*DATA_WIDTH;
-                }else if(Kernel_Size==1){
-                    weight_of_kernel = round_ch_24(input_channel)*round_ch_24(output_channel)*std::pow(Kernel_Size,2)*DATA_Depth_24*DATA_Depth_24*DATA_WIDTH;
-                    weight_of_AB     = round_ch_24(output_channel)*DATA_Depth_24*2*DATA_WIDTH;
-                }else if(layer_info_data_pointer_vector[now_location]->class_name=="Dense"){
+                if(layer_info_data_pointer_vector[now_location]->class_name=="Dense"){
                     if(layer_info_data_pointer_vector[pre_location_vec[0]]->class_name=="Dense"){
                         layer_info_data_pointer_vector[now_location]->IF_PRE_NODE_IS_DENSE = true;
                         //layer_info_data_pointer_vector[now_location]->Dense_input_node = layer_info_data_pointer_vector[pre_location]->Dense_output_channel * 
@@ -926,6 +923,12 @@ void pstruct::weight_offset(std::vector<std::shared_ptr<pstruct>> &layer_info_da
                                         layer_info_data_pointer_vector[now_location]->Dense_size_output_y *
                                         DATA_WIDTH
                                         ;
+                }else if(Kernel_Size==3){
+                    weight_of_kernel = round_ch_8(input_channel)*round_ch_8(output_channel)*std::pow(Kernel_Size,2)*DATA_DEPTH*DATA_DEPTH*DATA_WIDTH;
+                    weight_of_AB     = round_ch_8(output_channel)*DATA_DEPTH*2*DATA_WIDTH;
+                }else if(Kernel_Size==1){
+                    weight_of_kernel = round_ch_24(input_channel)*round_ch_24(output_channel)*std::pow(Kernel_Size,2)*DATA_Depth_24*DATA_Depth_24*DATA_WIDTH;
+                    weight_of_AB     = round_ch_24(output_channel)*DATA_Depth_24*2*DATA_WIDTH;
                 }else if(Kernel_Size==-1){
                     //donothing ， because you only got Kernel_size in CONV
                 }else{
@@ -990,7 +993,6 @@ std::vector<std::shared_ptr<pstruct>>pstruct::merge_node(std::vector<std::shared
             new_pointer->input_padding_size   = (new_pointer->input_padding_size==0)              ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->input_padding_size      : new_pointer->input_padding_size;
             new_pointer->Leaky_ReLU_alpha     = (new_pointer->Leaky_ReLU_alpha==-1)               ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->Leaky_ReLU_alpha        : new_pointer->Leaky_ReLU_alpha;
             new_pointer->Have_BatchNormalization = (new_pointer->Have_BatchNormalization==false)  ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->Have_BatchNormalization : new_pointer->Have_BatchNormalization;
-            new_pointer->Have_ReLU            = (new_pointer->Have_ReLU==false)                   ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->Have_ReLU               : new_pointer->Have_ReLU      ; 
             new_pointer->Have_Flatten         = (new_pointer->Have_Flatten==false)                ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->Have_Flatten            : new_pointer->Have_Flatten   ; 
             new_pointer->Have_Dense           = (new_pointer->Have_Dense==false)                  ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->Have_Dense              : new_pointer->Have_Dense     ; 
             new_pointer->Have_Maxpooling      = (new_pointer->Have_Maxpooling==false)             ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->Have_Maxpooling         : new_pointer->Have_Maxpooling; 
@@ -1002,6 +1004,10 @@ std::vector<std::shared_ptr<pstruct>>pstruct::merge_node(std::vector<std::shared
             if(layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->class_name=="BatchNormalization" && new_pointer->Have_ReLU==false){
                 new_pointer->Batch_First = true;
             }
+            if(layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->class_name=="Dense"){
+                new_pointer->Batch_First = true;
+            }
+            new_pointer->Have_ReLU            = (new_pointer->Have_ReLU==false)                   ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->Have_ReLU               : new_pointer->Have_ReLU      ; 
             new_pointer->branch_node          = (new_pointer->branch_node==false)                 ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->branch_node             : new_pointer->branch_node;
             new_pointer->concat_node          = (new_pointer->concat_node==false)                 ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->concat_node             : new_pointer->concat_node;
             new_pointer->Dense_input_channel  = (new_pointer->Dense_input_channel==false)         ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->Dense_input_channel     : new_pointer->Dense_input_channel ;
@@ -1012,7 +1018,7 @@ std::vector<std::shared_ptr<pstruct>>pstruct::merge_node(std::vector<std::shared
             new_pointer->Dense_size_input_y   = (new_pointer->Dense_size_input_y==false)          ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->Dense_size_input_y      : new_pointer->Dense_size_input_y  ;
             new_pointer->Dense_size_output_x  = (new_pointer->Dense_size_output_x==false)         ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->Dense_size_output_x     : new_pointer->Dense_size_output_x ;
             new_pointer->Dense_size_output_y  = (new_pointer->Dense_size_output_y==false)         ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->Dense_size_output_y     : new_pointer->Dense_size_output_y ;
-            new_pointer->IF_PRE_NODE_IS_DENSE = (new_pointer->IF_PRE_NODE_IS_DENSE==false)        ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->IF_PRE_NODE_IS_DENSE    : new_pointer->IF_PRE_NODE_IS_DENSE ;
+            new_pointer->IF_PRE_NODE_IS_DENSE = (new_pointer->IF_PRE_NODE_IS_DENSE==false)        ? layer_info_data_pointer_vector[target_layer_info_vector[target][target_number]]->IF_PRE_NODE_IS_DENSE    : new_pointer->IF_PRE_NODE_IS_DENSE;
             new_pointer->node_name_vector.push_back(new_pointer->node_name);
         }
         //----------------------下面兩個差非常多喔~~~~----------------------------
@@ -1043,7 +1049,7 @@ void pstruct::merge_node_fix(std::vector<std::shared_ptr<pstruct>> &merge_node_v
     std::vector<int>branch_node_jump_location_inside = branch_node_jump_location;
     for(int i=0;i<merge_node_vector.size();i++){
         if(i==0){//first node
-            const size_t Depth_select = merge_node_vector[i]->kernel_size==1 ? DATA_Depth_24 : DATA_DEPTH;
+            const size_t Depth_select = merge_node_vector[i]->class_name=="Dense" ?  DATA_Depth_24 : merge_node_vector[i]->kernel_size==1 ? DATA_Depth_24 : DATA_DEPTH;
             merge_node_vector[i]->node_name              = merge_node_vector[i]->weight_name;//+"_"+std::to_string(i+1);
             merge_node_vector[i]->weight_name            = merge_node_vector[i]->weight_name;//+"_"+std::to_string(i+1);
             merge_node_vector[i]->output_padding_size    = merge_node_vector[i]->padding=="same" ? merge_node_vector[i]->input_padding_size : 0;
@@ -1067,7 +1073,7 @@ void pstruct::merge_node_fix(std::vector<std::shared_ptr<pstruct>> &merge_node_v
         }
         else if(merge_node_vector[i]->Have_Concat){//TODO
             std::cout<<"Concatenate now!!!!!!!!!!!!!!!!!!!"<<std::endl;
-            const size_t Depth_select = merge_node_vector[i]->kernel_size==1 ? DATA_Depth_24 : DATA_DEPTH;
+            const size_t Depth_select = merge_node_vector[i]->class_name=="Dense" ?  DATA_Depth_24 : merge_node_vector[i]->kernel_size==1 ? DATA_Depth_24 : DATA_DEPTH;
             size_t address_select,branch_output_address_select;
             size_t merge_node_jump_location_select=0,merge_output_channel=0;
             merge_node_vector[i]->node_name              = merge_node_vector[i]->weight_name;//+"_"+std::to_string(i+1);
@@ -1123,7 +1129,7 @@ void pstruct::merge_node_fix(std::vector<std::shared_ptr<pstruct>> &merge_node_v
             merge_node_vector[i]->output_address         = merge_node_vector[i]->input_address[0] + output_size;
         }
         else{
-            const size_t Depth_select = merge_node_vector[i]->kernel_size==1 ? DATA_Depth_24 : DATA_DEPTH;
+            const size_t Depth_select = merge_node_vector[i]->class_name=="Dense" ?  DATA_Depth_24 : merge_node_vector[i]->kernel_size==1 ? DATA_Depth_24 : DATA_DEPTH;
             merge_node_vector[i]->node_name              = merge_node_vector[i]->weight_name;//+"_"+std::to_string(i+1);
             merge_node_vector[i]->weight_name            = merge_node_vector[i]->weight_name;//+"_"+std::to_string(i+1);
             merge_node_vector[i]->output_padding_size    = merge_node_vector[i]->padding=="same" ? merge_node_vector[i]->input_padding_size : 0;
@@ -1207,7 +1213,7 @@ void pstruct::gen_out_addr(std::shared_ptr<pstruct> &merge_node){
     const size_t o_tile_size = merge_node->output_tile_size;
     const size_t next_input_tile_num = merge_node->output_tile_number;
     const size_t input_tile_size = merge_node->input_tile_size;
-    const size_t Depth_select = merge_node->kernel_size==3 ? DATA_DEPTH : DATA_Depth_24;//這樣的寫法代表說，如果今天是CONV那他會判斷要8or24，如果今天是dense那也不用怕因為是-1他會直接給我們24
+    const size_t Depth_select = merge_node->class_name=="Dense" ?  DATA_Depth_24 : merge_node->kernel_size==1 ? DATA_Depth_24 : DATA_DEPTH;//這樣的寫法代表說，如果今天是CONV那他會判斷要8or24，如果今天是dense那也不用怕因為是-1他會直接給我們24
     const size_t two_byte_per_ch = Depth_select*2;
     const size_t channel_align = std::ceil(merge_node->output_channel/(double)Depth_select);
     const size_t branch_input_tile_size = merge_node->branch_input_tile_size;
@@ -1301,9 +1307,7 @@ void pstruct::gen_out_addr(std::shared_ptr<pstruct> &merge_node){
                     for(int x=0;x<FC_input_layer_x_mul_y;x++){
                         for(int z=0;z<FC_output_layer_num;z++){
                             index = (j*FC_input_layer_x_mul_y*FC_output_layer_num) + (x*FC_output_layer_num) + z;
-                            //std::cout<<index<<std::endl;
-                            tmp = index*two_byte_per_ch;
-                            merge_node->out_addr_set[index] = merge_node->output_address + tmp;
+                            merge_node->out_addr_set[index] = merge_node->output_address;
                             merge_node->valid_address_vec[index] = input_address + j*FC_input_layer_x_mul_y*FC_output_layer_num * two_byte_per_ch;
                         }
                     }
@@ -1317,8 +1321,7 @@ void pstruct::gen_out_addr(std::shared_ptr<pstruct> &merge_node){
                 for(int j=0;j<FC_input_layer_num;j++){
                     for(int z=0;z<FC_output_layer_num;z++){
                         index = j*FC_output_layer_num+z;
-                        tmp = index*two_byte_per_ch;
-                        merge_node->out_addr_set[index] = merge_node->output_address + tmp;
+                        merge_node->out_addr_set[index] = merge_node->output_address;
                         merge_node->valid_address_vec[index] = input_address; //因為前面已經有一個DENSE，所以後面可以都看成是一個點很多深度input_address都是一樣的
                     }
                 }
@@ -1332,9 +1335,6 @@ void pstruct::gen_t_type_m(std::shared_ptr<pstruct> &merge_node){
     if(merge_node->class_name=="Dense"){
         merge_node->tile_padding_type.resize(merge_node->out_addr_set.size(),10);
         return;
-    }
-    else{
-        merge_node->tile_padding_type.resize(merge_node->out_addr_set.size(),0);
     }
     const size_t i_tile_num = merge_node->input_tile_number;
     const size_t next_tile_num = merge_node->output_tile_number;
@@ -1372,7 +1372,7 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
     for(auto merge_node : merge_node_vector){
         gen_out_addr(merge_node);
         gen_t_type_m(merge_node);
-        const size_t Depth_select = merge_node->kernel_size==3 ? DATA_DEPTH : DATA_Depth_24;
+        const size_t Depth_select = merge_node->class_name=="Dense" ?  DATA_Depth_24 : merge_node->kernel_size==1 ? DATA_Depth_24 : DATA_DEPTH;
         const size_t i_tile_num  = merge_node->input_tile_number;
         const size_t next_tile_num = merge_node->output_tile_number;
         if(merge_node->class_name!="Dense"){
@@ -1436,6 +1436,10 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                                 merge_node->tile_info[index*8+4] |= (3&0b11)<<27;
                                 merge_node->tile_info[index*8+4] |= (3&0b11)<<29;
                             }
+                            size_t Output_tile_size_with_out_pooling   =  merge_node->input_tile_size / (merge_node->kernel_stride!=0 ? merge_node->kernel_stride : 1); 
+                            merge_node->tile_info[index*8+4] |= (Output_tile_size_with_out_pooling&0b000001)<<31;          //output_tile_size_row
+                            merge_node->tile_info[index*8+5]  = (Output_tile_size_with_out_pooling&0b111110)>>1;           //output_tile_size_row
+                            merge_node->tile_info[index*8+5] |= (Output_tile_size_with_out_pooling&0b111111)<<5;           //output_tile_size_col
                             //5bit control
                             merge_node->tile_info[index*8+7]  = 1<<12;                          //Reload
                             merge_node->tile_info[index*8+7] |= (index%2==1) ? 0<<16 : 1<<16;   //weight_buf_sel
@@ -1457,8 +1461,9 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
             size_t input_address = 0;
             size_t change_number = 0;
             merge_node->tile_info.resize(round_ch_24(i_tile_num)*round_ch_24(next_tile_num)*8,0);
-            std::cout<<merge_node->tile_info.size()<<std::endl;
+            std::cout<<"merge_node->tile_info.size() : "<<merge_node->tile_info.size()<<std::endl;
             if(!merge_node->IF_PRE_NODE_IS_DENSE){
+                merge_node->Tile_Info_Number = merge_node->Dense_size_input_x * merge_node->Dense_size_input_y * round_ch_24(merge_node->input_channel) * merge_node->Dense_size_output_x * merge_node->Dense_size_output_y;
                 FC_input_layer_x_mul_y = merge_node->Dense_size_input_x * merge_node->Dense_size_input_y;
                 FC_input_layer_RD = round_ch_24(merge_node->input_channel);
                 FC_output_layer_num = round_ch_24(merge_node->Dense_output_node);
@@ -1468,11 +1473,15 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                             for(int z=0;z<FC_output_layer_num;z++){
                                 index = (j*FC_input_layer_x_mul_y*FC_output_layer_num) + (x*FC_output_layer_num) + z;
                                 merge_node->tile_info[index*8]   = merge_node->out_addr_set[index];
-                                merge_node->tile_info[index*8+1] = merge_node->weight_address + DATA_Depth_24 * DATA_Depth_24 * DATA_WIDTH;
-                                merge_node->tile_info[index*8+1] += (j*FC_input_layer_x_mul_y+x) * 1 * DATA_WIDTH; //bias
+                                merge_node->tile_info[index*8+1] = merge_node->weight_address + index * DATA_Depth_24 * DATA_Depth_24 * DATA_WIDTH;
+                                //std::cout<<merge_node->tile_info[index*8+1]<<std::endl;
+                                if(x==FC_input_layer_x_mul_y-1){
+                                    merge_node->tile_info[index*8+1] += (z) * DATA_Depth_24 * 2 * DATA_WIDTH;
+                                }
+                                //merge_node->tile_info[index*8+1] += (j*FC_input_layer_x_mul_y+x) * 1 * DATA_WIDTH; //bias
                                 merge_node->tile_info[index*8+2] = merge_node->valid_address_vec[index] + merge_node->input_address[0];//因為只會有一個進入點這邊是做DENSE
                                 merge_node->tile_info[index*8+3] = 0;//全連接不會有輸出在pooling的資料
-                                if(j==FC_input_layer_RD-1 && x==FC_input_layer_x_mul_y-1 && z==FC_output_layer_num-1)//Is_Last_CHannel
+                                if(x==FC_input_layer_x_mul_y-1)//Is_Last_CHannel
                                     merge_node->tile_info[index*8+4] = 1;
                                 else
                                     merge_node->tile_info[index*8+4] = 0;
@@ -1487,22 +1496,25 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                                 merge_node->tile_info[index*8+4] |= (merge_node->tile_padding_type[i]&0xf) << 3;
                                 merge_node->tile_info[index*8+4] |= (merge_node->Dense_size_input_x&0b111111)<<7;         //input_tile_size_row
                                 merge_node->tile_info[index*8+4] |= (merge_node->Dense_size_input_y&0b111111)<<13;        //input_tile_size_col
-                                if(j==FC_input_layer_RD-1 && x==FC_input_layer_x_mul_y-1 && z==FC_output_layer_num-1) //Is_Last_CHannel 
+                                if(x==FC_input_layer_x_mul_y-1)
                                     merge_node->tile_info[index*8+4] |= (merge_node->kernel_size==3) ? (weight_len_last_3&0b1111111)<<19 : (weight_len_last_1&0b1111111)<<19;       //weight_len 74
                                 else
                                     merge_node->tile_info[index*8+4] |= (weight_len_not_last&0b1111111)<<19;       //weight_len 74
                                 merge_node->tile_info[index*8+4] |= 0<<26;
                                 //ICP OCP //要記得修改
                                 merge_node->tile_info[index*8+4] |= (j==FC_input_layer_RD-1)  ? (int(std::ceil((merge_node->input_channel%Depth_select)/(double)DATA_DEPTH))&0b11)<<27   : (3&0b11)<<27; //要拿原始的資料像是 256 160這樣不會是拿384 168這樣
-                                merge_node->tile_info[index*8+4] |= (z==FC_output_layer_num-1) ? (int(std::ceil((merge_node->output_channel%Depth_select)/(double)DATA_DEPTH))&0b11)<<29 : (3&0b11)<<29;
+                                merge_node->tile_info[index*8+4] |= (3&0b11)<<29;
+                                merge_node->tile_info[index*8+4] |= (merge_node->Dense_size_output_x&0b000001)<<31;          //output_tile_size_row
+                                merge_node->tile_info[index*8+5]  = (merge_node->Dense_size_output_x&0b111110)>>1;           //output_tile_size_row
+                                merge_node->tile_info[index*8+5] |= (merge_node->Dense_size_output_y&0b111111)<<5;           //output_tile_size_col
                                 //5 bit control
                                 if(FC_output_layer_num%2==0){ //AB為雙數
                                     //RELOAD
                                     if(index < 2){
                                         merge_node->tile_info[index*8+7] = 1<<12;
-                                    }else if(FC_input_layer_x_mul_y%2==1 && z==0){
+                                    }else if(j%2==1 && z==0){
                                         merge_node->tile_info[index*8+7] = 1<<12;
-                                    }else if(FC_input_layer_x_mul_y%2==0 && z==1){
+                                    }else if(j%2==0 && z==1){
                                         merge_node->tile_info[index*8+7] = 1<<12;
                                     }else{
                                         merge_node->tile_info[index*8+7] = 0<<12;
@@ -1510,7 +1522,7 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                                     //weight_buf_sel
                                     merge_node->tile_info[index*8+7]     |= (index%2==1) ? 0<<16 : 1<<16;
                                     //input_buf_sel
-                                    if(x%2==0){
+                                    if(j%2==0){
                                         merge_node->tile_info[index*8+7] |= 1<<20;
                                     }else{
                                         merge_node->tile_info[index*8+7] |= 0<<20;
@@ -1520,9 +1532,9 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                                     //input_loading
                                     if(index < 2){
                                         merge_node->tile_info[index*8+7] |= 1<<28;
-                                    }else if(FC_input_layer_x_mul_y%2==1 && z==0){
+                                    }else if(j%2==1 && z==0){
                                         merge_node->tile_info[index*8+7] |= 1<<28;
-                                    }else if(FC_input_layer_x_mul_y%2==0 && z==1){
+                                    }else if(j%2==0 && z==1){
                                         merge_node->tile_info[index*8+7] |= 1<<28;
                                     }else{
                                         merge_node->tile_info[index*8+7] |= 0<<28;
@@ -1531,7 +1543,7 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                                     //RELOAD
                                     if(index < 2){
                                         merge_node->tile_info[index*8+7] = 1<<12;
-                                    }else if(z==1){
+                                    }else if(x==0 && z==1){
                                         merge_node->tile_info[index*8+7] = 1<<12;
                                     }else{
                                         merge_node->tile_info[index*8+7] = 0<<12;
@@ -1539,7 +1551,7 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                                     //weight_buf_sel
                                     merge_node->tile_info[index*8+7]     |= (index%2==1) ? 0<<16 : 1<<16;
                                     //input_buf_sel
-                                    if((x+z)%2==0){
+                                    if(j%2==0){
                                         merge_node->tile_info[index*8+7] |= 1<<20;
                                     }else{
                                         merge_node->tile_info[index*8+7] |= 0<<20;
@@ -1549,7 +1561,7 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                                     //input_loading
                                     if(index < 2){
                                         merge_node->tile_info[index*8+7] |= 1<<28;
-                                    }else if(z==1){
+                                    }else if(x==0 && z==1){
                                         merge_node->tile_info[index*8+7] |= 1<<28;
                                     }else{
                                         merge_node->tile_info[index*8+7] |= 0<<28;
@@ -1561,6 +1573,7 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                 }
             }
             else{
+                merge_node->Tile_Info_Number = merge_node->Dense_size_input_x*merge_node->Dense_size_input_y * merge_node->Dense_size_output_x * merge_node->Dense_size_output_y;
                 FC_input_layer_num = round_ch_24(merge_node->Dense_input_node);
                 FC_output_layer_num = round_ch_24(merge_node->Dense_output_node);
                 for(int i=0;i<Dense_flat_size;i++){
@@ -1568,11 +1581,15 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                         for(int z=0;z<FC_output_layer_num;z++){
                             index = j * FC_output_layer_num + z;
                             merge_node->tile_info[index*8] = merge_node->out_addr_set[index];
-                            merge_node->tile_info[index*8+1] = merge_node->weight_address + DATA_Depth_24 * DATA_Depth_24 * DATA_WIDTH;
-                            merge_node->tile_info[index*8+1] = j * 1 * DATA_WIDTH;//bias
+                            merge_node->tile_info[index*8+1] = merge_node->weight_address + index * DATA_Depth_24 * DATA_Depth_24 * DATA_WIDTH;
+                            //std::cout<<merge_node->tile_info[index*8+1]<<std::endl;
+                            if(j==FC_input_layer_num-1){
+                                merge_node->tile_info[index*8+1] += (z) * DATA_Depth_24 * 2 * DATA_WIDTH;
+                            }
+                            //merge_node->tile_info[index*8+1] += j * 2 * DATA_WIDTH;//bias
                             merge_node->tile_info[index*8+2] = merge_node->valid_address_vec[index] + merge_node->input_address[0];
                             merge_node->tile_info[index*8+3] = 0;
-                            if(j==FC_input_layer_num-1 && z==FC_output_layer_num-1)//Is_Last_Channel
+                            if(j==FC_input_layer_num-1)//Is_Last_Channel 告訴硬體說這邊是最後一個channel要記得加上alpga bias
                                 merge_node->tile_info[index*8+4] = 1;
                             else
                                 merge_node->tile_info[index*8+4] = 0;
@@ -1580,28 +1597,27 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                                 merge_node->tile_info[index*8+4] |= 1<<1;
                             else
                                 merge_node->tile_info[index*8+4] |= 0<<1;
-                            if(j==FC_input_layer_num-1 && z==FC_output_layer_num-1)//Is_Final_tile
+                            if(j==FC_input_layer_num-1 && z==FC_output_layer_num-1)//Is_Final_tile 告訴硬體說我這邊要輸出拉因為已經是最後一個了
                                 merge_node->tile_info[index*8+4] |= 1<<2;
                             else
                                 merge_node->tile_info[index*8+4] |= 0<<2;
                             merge_node->tile_info[index*8+4] |= (merge_node->tile_padding_type[i]&0xf) << 3;
                             merge_node->tile_info[index*8+4] |= (merge_node->Dense_size_input_x&0b111111)<<7;         //input_tile_size_row
                             merge_node->tile_info[index*8+4] |= (merge_node->Dense_size_input_y&0b111111)<<13;        //input_tile_size_col
-                            if(j==FC_input_layer_num-1 && z==FC_output_layer_num-1)//Is_Final_tile
+                            if(j==FC_input_layer_num-1)
                                 merge_node->tile_info[index*8+4] |= (merge_node->kernel_size==3) ? (weight_len_last_3&0b1111111)<<19 : (weight_len_last_1&0b1111111)<<19;       //weight_len 74
                             else
                                 merge_node->tile_info[index*8+4] |= (weight_len_not_last&0b1111111)<<19;       //weight_len 74
                             merge_node->tile_info[index*8+4] |= 0<<26;
-                            merge_node->tile_info[index*8+4] |= (3&0b11)<<27; //ICP OCP 這邊都會拿滿 因為前面是DEBSE
-                            merge_node->tile_info[index*8+4] |= (3&0b11)<<29; //ICP OCP 這邊都會拿滿 因為前面是DEBSE
+                            merge_node->tile_info[index*8+4] |= (3&0b11)<<27; //ICP 這邊都會拿滿 因為前面是DEBSE
+                            merge_node->tile_info[index*8+4] |= (3&0b11)<<29; //OCP 這邊都會拿滿 因為前面是DEBSE
+                            merge_node->tile_info[index*8+4] |= (merge_node->Dense_size_output_x&0b000001)<<31;          //output_tile_size_row
+                            merge_node->tile_info[index*8+5]  = (merge_node->Dense_size_output_x&0b111110)>>1;           //output_tile_size_row
+                            merge_node->tile_info[index*8+5] |= (merge_node->Dense_size_output_y&0b111111)<<5;           //output_tile_size_col
                             //5 bit control
                             if(FC_output_layer_num%2==0){ //AB為雙數
                                 //RELOAD
                                 if(index < 2){
-                                    merge_node->tile_info[index*8+7] = 1<<12;
-                                }else if(FC_input_layer_x_mul_y%2==1 && z==0){
-                                    merge_node->tile_info[index*8+7] = 1<<12;
-                                }else if(FC_input_layer_x_mul_y%2==0 && z==1){
                                     merge_node->tile_info[index*8+7] = 1<<12;
                                 }else{
                                     merge_node->tile_info[index*8+7] = 0<<12;
@@ -1609,7 +1625,7 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                                 //weight_buf_sel
                                 merge_node->tile_info[index*8+7]     |= (index%2==1) ? 0<<16 : 1<<16;
                                 //input_buf_sel
-                                if(j%2==0){
+                                if(i%2==0){
                                     merge_node->tile_info[index*8+7] |= 1<<20;
                                 }else{
                                     merge_node->tile_info[index*8+7] |= 0<<20;
@@ -1618,10 +1634,6 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                                 merge_node->tile_info[index*8+7]     |= 1<<24;
                                 //input_loading
                                 if(index < 2){
-                                    merge_node->tile_info[index*8+7] |= 1<<28;
-                                }else if(FC_input_layer_x_mul_y%2==1 && z==0){
-                                    merge_node->tile_info[index*8+7] |= 1<<28;
-                                }else if(FC_input_layer_x_mul_y%2==0 && z==1){
                                     merge_node->tile_info[index*8+7] |= 1<<28;
                                 }else{
                                     merge_node->tile_info[index*8+7] |= 0<<28;
@@ -1630,15 +1642,13 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                                 //RELOAD
                                 if(index < 2){
                                     merge_node->tile_info[index*8+7] = 1<<12;
-                                }else if(z==1){
-                                    merge_node->tile_info[index*8+7] = 1<<12;
                                 }else{
                                     merge_node->tile_info[index*8+7] = 0<<12;
                                 }
                                 //weight_buf_sel
                                 merge_node->tile_info[index*8+7]     |= (index%2==1) ? 0<<16 : 1<<16;
                                 //input_buf_sel
-                                if((j+z)%2==0){
+                                if(i%2==0){
                                     merge_node->tile_info[index*8+7] |= 1<<20;
                                 }else{
                                     merge_node->tile_info[index*8+7] |= 0<<20;
@@ -1647,8 +1657,6 @@ void pstruct::get_tile_info(std::vector<std::shared_ptr<pstruct>> &merge_node_ve
                                 merge_node->tile_info[index*8+7]     |= 1<<24;
                                 //input_loading
                                 if(index < 2){
-                                    merge_node->tile_info[index*8+7] |= 1<<28;
-                                }else if(z==1){
                                     merge_node->tile_info[index*8+7] |= 1<<28;
                                 }else{
                                     merge_node->tile_info[index*8+7] |= 0<<28;
@@ -1694,11 +1702,12 @@ std::vector<uint32_t> pstruct::Gen_Layer_Info(std::shared_ptr<pstruct> &merge_no
     Inst[2] |= (merge_node->Leaky_ReLU_alpha_FP&0x07ff) << 21;
     Inst[3]  = (merge_node->Leaky_ReLU_alpha_FP&0xf800) >> 11;
     int32_t input_feature_offset_select = merge_node->kernel_size==1 ? std::pow(merge_node->input_feature_size,2) : merge_node->input_feature_size;//如果是3*3的話，要給予整個input_feature_size，但是如果是1*1那要給予這個tile的offset，例如這個tile是8*8那這個input_feature_offset就是64，最大限制是34*12
-    Inst[3] |= (input_feature_offset_select&0xfff)<<5;
+    int32_t input_feature_offset = merge_node->class_name=="Dense" ? (merge_node->Dense_size_input_x * merge_node->Dense_size_input_y) : input_feature_offset_select;
+    Inst[3] |= (input_feature_offset&0xfff)<<5;
     int32_t output_feature_select = merge_node->Have_Maxpooling ? merge_node->output_feature_size*2 : merge_node->output_feature_size; //這邊幫忙回復到沒有做maxpooling的參數 但是裡面運算還是要有喔~~~
-    int32_t output_feature_offset = merge_node->kernel_size==1 ? std::pow(output_feature_select,2) : output_feature_select;
+    int32_t output_feature_offset = merge_node->class_name=="Dense" ? (merge_node->Dense_size_output_x * merge_node->Dense_size_output_y) : merge_node->kernel_size==1 ? std::pow(output_feature_select,2) : output_feature_select;
     Inst[3] |= (output_feature_offset&0xfff)<<17;//input_feature_offset
-    Inst[3] |= (0&0b11)<<29; // u got four type 00 is conv_mode，01 is FC_mode，10 is DWS_mode，11 is DE_CONV_mode
+    Inst[3] |= (merge_node->class_name=="Dense" ? 1&0b11 : 0&0b11)<<29; // u got four type 00 is conv_mode，01 is FC_mode，10 is DWS_mode，11 is DE_CONV_mode
     Inst[3] |= (merge_node->Concat_output_control&0b1)<<31;
     Inst[4] = merge_node->pooling_quant_finish&0b111111;
     return Inst;
@@ -1717,10 +1726,12 @@ std::vector<uint32_t> pstruct::gen_layer_info_data(std::vector<std::shared_ptr<p
     layer_info_data.reserve(tmp_layer_count*LAYER_INFO_DATA_SIZE);//這邊我有做過小測試，當初只是希望先抓個代蓋例如我現在再測試左邊八層帶入公式就是8*8*5=320，但是基本上我們只需要8*5就夠了因為我們的資料還是一樣多
     size_t FOUR_K_BOUNDARY_ZCU_OR_ZEDBOARD_NUMBER = BUS_WIDTH==8 ? 4 : 2; //32/BUS_WIDTH
     for(auto &merge_node : merge_node_vector){
-        const size_t Depth_select = merge_node->kernel_size==1 ? DATA_Depth_24 : DATA_DEPTH;
+        const size_t Depth_select = merge_node->class_name=="Dense" ?  DATA_Depth_24 : merge_node->kernel_size==1 ? DATA_Depth_24 : DATA_DEPTH;
         const size_t tile_num = merge_node->Tile_Info_Number * FOUR_K_BOUNDARY_ZCU_OR_ZEDBOARD_NUMBER;
+        std::cout<<"tile_info_number: "<<merge_node->Tile_Info_Number<<std::endl;
         size_t tile_num_tmp = 0;
         merge_node->Tile_Info_Addr += tmp_addr;
+        std::cout<<"-------------------------pre_layer_info----------------------"<<std::endl;
         for(size_t j=0;j<tile_num;j+=tile_num_tmp){
             tile_num_tmp = tile_num-j;
             if(tile_num_tmp > HW_INFO_MAX*FOUR_K_BOUNDARY_ZCU_OR_ZEDBOARD_NUMBER){//我們這邊需要判斷的是我們每次的資料量多寡會不會跨到4K邊界，但是對於zedboard or zcu來說雖然都是一個tile，但是tile的資料量不一樣，zedboard 4in4out，zcu 8in8out所以才會看到zcu反而會比較少就需要控管4k邊界的問題，因為他量大所以一半就已經到邊界了
@@ -1734,6 +1745,9 @@ std::vector<uint32_t> pstruct::gen_layer_info_data(std::vector<std::shared_ptr<p
             }
             merge_node->Tile_Info_Number = tile_num_tmp -1;
             const std::vector<uint32_t>layer_info = merge_node->Gen_Layer_Info(merge_node);
+            for(auto i : layer_info){
+                std::cout<<i<<std::endl;
+            }
             layer_info_data.insert(layer_info_data.end(),layer_info.begin(),layer_info.end());
             tmp_addr +=tile_num_tmp * BUS_WIDTH;
         }
@@ -1786,11 +1800,14 @@ void pstruct::dump_total_tile_sim(const std::string &filename,const std::vector<
         if(merge_node->tile_info.size() & TILE_COUNT !=0){
             throw std::invalid_argument("Tile Info format error");
         }
+        //std::cout<<"Tile_count"<<TILE_COUNT<<std::endl;
         for(size_t i=0;i<(merge_node->tile_info.size()/TILE_COUNT);i++){
             for(int j = TILE_COUNT-1;j>=0;j--){
                 if(j<4){
                     if(j==1){//weight_addr
                         out << fmt::format("{:08x}",merge_node->tile_info[i*TILE_COUNT+j]+WEIGHT_BASE_ADDR);
+                        //if(merge_node->class_name=="Dense" && !merge_node->IF_PRE_NODE_IS_DENSE)
+                        //    std::cout<<"look in here "<<merge_node->tile_info[i*TILE_COUNT+j]<<std::endl;
                     }
                     else if(j==0){
                         if(merge_node->Have_Maxpooling && merge_node->Concat_output_control)
@@ -2012,7 +2029,7 @@ std::vector<std::vector<short>>pstruct::gen_total_weight(const std::string &dir_
     size_t total_weight_count = 0;
     std::map<std::string,bool> weight_table;
     for(auto &merge_node : merge_node_vector){
-        const size_t Depth_select = merge_node->kernel_size==1 ? DATA_Depth_24 : DATA_DEPTH; //這邊要做選擇是哪個深度要做判定，1*1 or 3*3
+        const size_t Depth_select = merge_node->class_name=="Dense" ?  DATA_Depth_24 : merge_node->kernel_size==1 ? DATA_Depth_24 : DATA_DEPTH;
         if(!weight_table[merge_node->weight_name]){
             auto once_cal_weight_num_select = (merge_node->kernel_size==3) ? ONCE_CAL_WEIGHT_NUM_3 : ONCE_CAL_WEIGHT_NUM_1;
             total_weight_count  = total_weight_count + std::ceil(merge_node->input_channel/(double)(Depth_select))*std::ceil(merge_node->output_channel/(double)(Depth_select))*once_cal_weight_num_select + std::ceil(merge_node->output_channel/(double)(Depth_select))*Depth_select*2;
@@ -2331,5 +2348,8 @@ int main(int argc, char **argv){
             }
         #endif
     }
+    std::cout<<"----------------------FINIFSH--------------------"<<std::endl;
+    std::cout<<"----------------------FINIFSH--------------------"<<std::endl;
+    std::cout<<"----------------------FINIFSH--------------------"<<std::endl;
     out.close();
 }
