@@ -1,0 +1,256 @@
+Alpha!!!!!! file_index:0 Scale: -1.42827 Var: 0.0319155 quant_batch: 11 ANS: -16373
+Alpha!!!!!! file_index:1 Scale: -0.000380755 Var: 4.14944e-05 quant_batch: 11 ANS: -121
+Alpha!!!!!! file_index:2 Scale: 1.26948 Var: 0.0267306 quant_batch: 11 ANS: 15901
+Alpha!!!!!! file_index:3 Scale: 1.49639 Var: 0.049131 quant_batch: 11 ANS: 13825
+Alpha!!!!!! file_index:4 Scale: -9.63482e-05 Var: 3.62669e-06 quant_batch: 11 ANS: -103
+Alpha!!!!!! file_index:5 Scale: -0.000275672 Var: 4.11847e-05 quant_batch: 11 ANS: -87
+Alpha!!!!!! file_index:6 Scale: 1.23928 Var: 0.0289875 quant_batch: 11 ANS: 14907
+Alpha!!!!!! file_index:7 Scale: 0.0010288 Var: 2.69803e-05 quant_batch: 11 ANS: 405
+Beta!!!!!! file_index:0 Bias: 1.24267 Scale: -1.42827 Mean: -0.0875299 Var: 0.0319155 ANS: 1111 quant_batch: 2048
+Beta!!!!!! file_index:1 Bias: -0.00346179 Scale: -0.000380755 Mean: 0.00410135 Var: 4.14944e-05 ANS: -6 quant_batch: 2048
+Beta!!!!!! file_index:2 Bias: 0.877857 Scale: 1.26948 Mean: 0.134313 Var: 0.0267306 ANS: -337 quant_batch: 2048
+Beta!!!!!! file_index:3 Bias: 1.80804 Scale: 1.49639 Mean: 0.22185 Var: 0.049131 ANS: 635 quant_batch: 2048
+Beta!!!!!! file_index:4 Bias: -0.00568055 Scale: -9.63482e-05 Mean: -0.000711916 Var: 3.62669e-06 ANS: -11 quant_batch: 2048
+Beta!!!!!! file_index:5 Bias: -0.002563 Scale: -0.000275672 Mean: -0.00186328 Var: 4.11847e-05 ANS: -5 quant_batch: 2048
+Beta!!!!!! file_index:6 Bias: 0.943448 Scale: 1.23928 Mean: 0.0673902 Var: 0.0289875 ANS: 927 quant_batch: 2048
+Beta!!!!!! file_index:7 Bias: -0.0050304 Scale: 0.0010288 Mean: -0.00317627 Var: 2.69803e-05 ANS: -9 quant_batch: 2048
+Alpha!!!!!! file_index:8 Scale: 0.96391 Var: 0.013169 quant_batch: 11 ANS: 17202
+Alpha!!!!!! file_index:9 Scale: -1.07577 Var: 0.0198543 quant_batch: 11 ANS: -15635
+Alpha!!!!!! file_index:10 Scale: 1.20576 Var: 0.0217144 quant_batch: 11 ANS: 16757
+Alpha!!!!!! file_index:11 Scale: -1.57307 Var: 0.0788648 quant_batch: 11 ANS: -11471
+Alpha!!!!!! file_index:12 Scale: 1.32386 Var: 0.0200017 quant_batch: 11 ANS: 19170
+Alpha!!!!!! file_index:13 Scale: -1.13753 Var: 0.0333976 quant_batch: 11 ANS: -12747
+Alpha!!!!!! file_index:14 Scale: 1.58751 Var: 0.0528378 quant_batch: 11 ANS: 14144
+Alpha!!!!!! file_index:15 Scale: -1.2868 Var: 0.0270951 quant_batch: 11 ANS: -16010
+Beta!!!!!! file_index:8 Bias: 0.615127 Scale: 0.96391 Mean: 0.19211 Var: 0.013169 ANS: -2044 quant_batch: 2048
+Beta!!!!!! file_index:9 Bias: 0.550961 Scale: -1.07577 Mean: 0.0677004 Var: 0.0198543 ANS: 2186 quant_batch: 2048
+Beta!!!!!! file_index:10 Bias: 0.809041 Scale: 1.20576 Mean: -0.0197946 Var: 0.0217144 ANS: 1988 quant_batch: 2048
+Beta!!!!!! file_index:11 Bias: 2.03338 Scale: -1.57307 Mean: -0.227183 Var: 0.0788648 ANS: 1558 quant_batch: 2048
+Beta!!!!!! file_index:12 Bias: 0.667986 Scale: 1.32386 Mean: 0.0424407 Var: 0.0200017 ANS: 554 quant_batch: 2048
+Beta!!!!!! file_index:13 Bias: 0.288586 Scale: -1.13753 Mean: -0.0891272 Var: 0.0333976 ANS: -545 quant_batch: 2048
+Beta!!!!!! file_index:14 Bias: 1.44783 Scale: 1.58751 Mean: 0.194076 Var: 0.0528378 ANS: 220 quant_batch: 2048
+Beta!!!!!! file_index:15 Bias: 0.787685 Scale: -1.2868 Mean: -0.113142 Var: 0.0270951 ANS: -198 quant_batch: 2048
+Alpha!!!!!! file_index:16 Scale: -1.6609 Var: 0.0381152 quant_batch: 11 ANS: -17423
+Alpha!!!!!! file_index:17 Scale: -0.00273379 Var: 1.54835e-05 quant_batch: 11 ANS: -1422
+Alpha!!!!!! file_index:18 Scale: -0.231699 Var: 0.000581342 quant_batch: 11 ANS: -19680
+Alpha!!!!!! file_index:19 Scale: -0.00420553 Var: 1.44678e-05 quant_batch: 11 ANS: -2264
+Alpha!!!!!! file_index:20 Scale: 0.430916 Var: 0.00321508 quant_batch: 11 ANS: 15564
+Alpha!!!!!! file_index:21 Scale: 0.000615003 Var: 2.16902e-05 quant_batch: 11 ANS: 270
+Alpha!!!!!! file_index:22 Scale: 1.31157 Var: 0.026448 quant_batch: 11 ANS: 16516
+Alpha!!!!!! file_index:23 Scale: 0.976103 Var: 0.00979045 quant_batch: 11 ANS: 20203
+Beta!!!!!! file_index:16 Bias: 0.457347 Scale: -1.6609 Mean: 0.205287 Var: 0.0381152 ANS: 4513 quant_batch: 2048
+Beta!!!!!! file_index:17 Bias: 0.0043918 Scale: -0.00273379 Mean: -0.00321449 Var: 1.54835e-05 ANS: 4 quant_batch: 2048
+Beta!!!!!! file_index:18 Bias: 0.165947 Scale: -0.231699 Mean: -0.0468188 Var: 0.000581342 ANS: -581 quant_batch: 2048
+Beta!!!!!! file_index:19 Bias: 2.96516e-05 Scale: -0.00420553 Mean: 0.00125962 Var: 1.44678e-05 ANS: 2 quant_batch: 2048
+Beta!!!!!! file_index:20 Bias: 0.141417 Scale: 0.430916 Mean: -0.0666579 Var: 0.00321508 ANS: 1327 quant_batch: 2048
+Beta!!!!!! file_index:21 Bias: -0.00530452 Scale: 0.000615003 Mean: -0.000609826 Var: 2.16902e-05 ANS: -10 quant_batch: 2048
+Beta!!!!!! file_index:22 Bias: 0.668991 Scale: 1.31157 Mean: 0.0771655 Var: 0.026448 ANS: 95 quant_batch: 2048
+Beta!!!!!! file_index:23 Bias: 0.665353 Scale: 0.976103 Mean: -0.0597735 Var: 0.00979045 ANS: 2570 quant_batch: 2048
+Alpha!!!!!! file_index:24 Scale: -0.000360377 Var: 5.53492e-06 quant_batch: 11 ANS: -313
+Alpha!!!!!! file_index:25 Scale: -0.706606 Var: 0.00710653 quant_batch: 11 ANS: -17166
+Alpha!!!!!! file_index:26 Scale: -0.617697 Var: 0.00619834 quant_batch: 11 ANS: -16068
+Alpha!!!!!! file_index:27 Scale: 0.630813 Var: 0.00717777 quant_batch: 11 ANS: 15248
+Alpha!!!!!! file_index:28 Scale: -0.600149 Var: 0.00434152 quant_batch: 11 ANS: -18653
+Alpha!!!!!! file_index:29 Scale: -1.26103 Var: 0.036007 quant_batch: 11 ANS: -13610
+Alpha!!!!!! file_index:30 Scale: 1.39223 Var: 0.0321622 quant_batch: 11 ANS: 15898
+Alpha!!!!!! file_index:31 Scale: -1.54728 Var: 0.019254 quant_batch: 11 ANS: -22836
+Beta!!!!!! file_index:24 Bias: -0.0019912 Scale: -0.000360377 Mean: 0.00185906 Var: 5.53492e-06 ANS: -3 quant_batch: 2048
+Beta!!!!!! file_index:25 Bias: 0.0712374 Scale: -0.706606 Mean: -0.0217581 Var: 0.00710653 ANS: -227 quant_batch: 2048
+Beta!!!!!! file_index:26 Bias: 0.219021 Scale: -0.617697 Mean: -0.0304848 Var: 0.00619834 ANS: -41 quant_batch: 2048
+Beta!!!!!! file_index:27 Bias: 0.404942 Scale: 0.630813 Mean: 0.00131447 Var: 0.00717777 ANS: 809 quant_batch: 2048
+Beta!!!!!! file_index:28 Bias: 0.353193 Scale: -0.600149 Mean: 0.0546768 Var: 0.00434152 ANS: 1743 quant_batch: 2048
+Beta!!!!!! file_index:29 Bias: 1.48373 Scale: -1.26103 Mean: -0.0785092 Var: 0.036007 ANS: 1970 quant_batch: 2048
+Beta!!!!!! file_index:30 Bias: 1.01884 Scale: 1.39223 Mean: 0.170422 Var: 0.0321622 ANS: -622 quant_batch: 2048
+Beta!!!!!! file_index:31 Bias: 0.0373855 Scale: -1.54728 Mean: 0.16659 Var: 0.019254 ANS: 3880 quant_batch: 2048
+Alpha!!!!!! file_index:32 Scale: 1.59908 Var: 0.0446675 quant_batch: 11 ANS: 15495
+Alpha!!!!!! file_index:33 Scale: 1.2783 Var: 0.02719 quant_batch: 11 ANS: 15876
+Alpha!!!!!! file_index:34 Scale: 0.00158164 Var: 4.86707e-05 quant_batch: 11 ANS: 464
+Alpha!!!!!! file_index:35 Scale: -1.32346 Var: 0.032532 quant_batch: 11 ANS: -15027
+Alpha!!!!!! file_index:36 Scale: -0.972739 Var: 0.0219077 quant_batch: 11 ANS: -13459
+Alpha!!!!!! file_index:37 Scale: -0.00123791 Var: 2.86993e-05 quant_batch: 11 ANS: -473
+Alpha!!!!!! file_index:38 Scale: 1.60364 Var: 0.0643284 quant_batch: 11 ANS: 12948
+Alpha!!!!!! file_index:39 Scale: 0.710465 Var: 0.00900131 quant_batch: 11 ANS: 15336
+Beta!!!!!! file_index:32 Bias: 0.834711 Scale: 1.59908 Mean: 0.139224 Var: 0.0446675 ANS: -447 quant_batch: 2048
+Beta!!!!!! file_index:33 Bias: 1.02393 Scale: 1.2783 Mean: 0.067632 Var: 0.02719 ANS: 1023 quant_batch: 2048
+Beta!!!!!! file_index:34 Bias: -0.00677692 Scale: 0.00158164 Mean: 0.00467849 Var: 4.86707e-05 ANS: -16 quant_batch: 2048
+Beta!!!!!! file_index:35 Bias: 0.904427 Scale: -1.32346 Mean: -0.0946382 Var: 0.032532 ANS: 430 quant_batch: 2048
+Beta!!!!!! file_index:36 Bias: 0.526129 Scale: -0.972739 Mean: -0.0969617 Var: 0.0219077 ANS: -227 quant_batch: 2048
+Beta!!!!!! file_index:37 Bias: -0.0122271 Scale: -0.00123791 Mean: -0.00439331 Var: 2.86993e-05 ANS: -27 quant_batch: 2048
+Beta!!!!!! file_index:38 Bias: 1.99173 Scale: 1.60364 Mean: 0.173531 Var: 0.0643284 ANS: 1832 quant_batch: 2048
+Beta!!!!!! file_index:39 Bias: 0.121429 Scale: 0.710465 Mean: -0.138345 Var: 0.00900131 ANS: 2370 quant_batch: 2048
+Alpha!!!!!! file_index:40 Scale: -0.462824 Var: 0.00286007 quant_batch: 11 ANS: -17723
+Alpha!!!!!! file_index:41 Scale: -0.654039 Var: 0.00372558 quant_batch: 11 ANS: -21945
+Alpha!!!!!! file_index:42 Scale: 1.32704 Var: 0.0278596 quant_batch: 11 ANS: 16282
+Alpha!!!!!! file_index:43 Scale: -0.000246665 Var: 3.25972e-05 quant_batch: 11 ANS: -88
+Alpha!!!!!! file_index:44 Scale: 1.25608 Var: 0.0230554 quant_batch: 11 ANS: 16941
+Alpha!!!!!! file_index:45 Scale: 1.08582 Var: 0.0180682 quant_batch: 11 ANS: 16543
+Alpha!!!!!! file_index:46 Scale: 0.000884919 Var: 1.05728e-06 quant_batch: 11 ANS: 1762
+Alpha!!!!!! file_index:47 Scale: 0.850643 Var: 0.00873703 quant_batch: 11 ANS: 18637
+Beta!!!!!! file_index:40 Bias: 0.175573 Scale: -0.462824 Mean: 0.01721 Var: 0.00286007 ANS: 664 quant_batch: 2048
+Beta!!!!!! file_index:41 Bias: 0.402371 Scale: -0.654039 Mean: 0.0416529 Var: 0.00372558 ANS: 1738 quant_batch: 2048
+Beta!!!!!! file_index:42 Bias: 0.635633 Scale: 1.32704 Mean: 0.0902569 Var: 0.0278596 ANS: -167 quant_batch: 2048
+Beta!!!!!! file_index:43 Bias: -0.00548686 Scale: -0.000246665 Mean: 0.00179424 Var: 3.25972e-05 ANS: -11 quant_batch: 2048
+Beta!!!!!! file_index:44 Bias: 0.770271 Scale: 1.25608 Mean: 0.0417196 Var: 0.0230554 ANS: 870 quant_batch: 2048
+Beta!!!!!! file_index:45 Bias: 0.752098 Scale: 1.08582 Mean: 0.0401653 Var: 0.0180682 ANS: 875 quant_batch: 2048
+Beta!!!!!! file_index:46 Bias: -0.00537983 Scale: 0.000884919 Mean: -0.000854076 Var: 1.05728e-06 ANS: -9 quant_batch: 2048
+Beta!!!!!! file_index:47 Bias: 0.433868 Scale: 0.850643 Mean: -0.0968884 Var: 0.00873703 ANS: 2694 quant_batch: 2048
+Alpha!!!!!! file_index:48 Scale: 1.39835 Var: 0.0292071 quant_batch: 11 ANS: 16757
+Alpha!!!!!! file_index:49 Scale: -0.000357402 Var: 7.98458e-06 quant_batch: 11 ANS: -259
+Alpha!!!!!! file_index:50 Scale: -0.77486 Var: 0.0121623 quant_batch: 11 ANS: -14389
+Alpha!!!!!! file_index:51 Scale: -1.29607 Var: 0.0369375 quant_batch: 11 ANS: -13810
+Alpha!!!!!! file_index:52 Scale: -1.27472 Var: 0.0111234 quant_batch: 11 ANS: -24752
+Alpha!!!!!! file_index:53 Scale: 0.477693 Var: 0.00297256 quant_batch: 11 ANS: 17943
+Alpha!!!!!! file_index:54 Scale: 0.0217423 Var: 9.37983e-06 quant_batch: 11 ANS: 14539
+Alpha!!!!!! file_index:55 Scale: 0.0132477 Var: 2.03834e-05 quant_batch: 11 ANS: 6009
+Beta!!!!!! file_index:48 Bias: 0.741928 Scale: 1.39835 Mean: 0.0465291 Var: 0.0292071 ANS: 739 quant_batch: 2048
+Beta!!!!!! file_index:49 Bias: -0.00120814 Scale: -0.000357402 Mean: -0.00210927 Var: 7.98458e-06 ANS: -3 quant_batch: 2048
+Beta!!!!!! file_index:50 Bias: 0.252664 Scale: -0.77486 Mean: -0.0211791 Var: 0.0121623 ANS: 212 quant_batch: 2048
+Beta!!!!!! file_index:51 Bias: 1.43702 Scale: -1.29607 Mean: -0.0554202 Var: 0.0369375 ANS: 2177 quant_batch: 2048
+Beta!!!!!! file_index:52 Bias: 0.200738 Scale: -1.27472 Mean: 0.0225609 Var: 0.0111234 ANS: 969 quant_batch: 2048
+Beta!!!!!! file_index:53 Bias: 0.185252 Scale: 0.477693 Mean: -0.0755548 Var: 0.00297256 ANS: 1735 quant_batch: 2048
+Beta!!!!!! file_index:54 Bias: 0.00348402 Scale: 0.0217423 Mean: -0.000316062 Var: 9.37983e-06 ANS: 11 quant_batch: 2048
+Beta!!!!!! file_index:55 Bias: 0.00545174 Scale: 0.0132477 Mean: -0.00208606 Var: 2.03834e-05 ANS: 23 quant_batch: 2048
+Alpha!!!!!! file_index:56 Scale: -1.22822 Var: 0.0159166 quant_batch: 11 ANS: -19937
+Alpha!!!!!! file_index:57 Scale: 0.000180623 Var: 4.48808e-05 quant_batch: 11 ANS: 55
+Alpha!!!!!! file_index:58 Scale: -1.06048 Var: 0.0182078 quant_batch: 11 ANS: -16095
+Alpha!!!!!! file_index:59 Scale: -1.29245 Var: 0.0320441 quant_batch: 11 ANS: -14786
+Alpha!!!!!! file_index:60 Scale: -0.57274 Var: 0.00413191 quant_batch: 11 ANS: -18247
+Alpha!!!!!! file_index:61 Scale: 1.25372e-05 Var: 2.22366e-05 quant_batch: 11 ANS: 5
+Alpha!!!!!! file_index:62 Scale: -1.16568 Var: 0.0227024 quant_batch: 11 ANS: -15844
+Alpha!!!!!! file_index:63 Scale: -0.331603 Var: 0.00115422 quant_batch: 11 ANS: -19989
+Beta!!!!!! file_index:56 Bias: 1.0738 Scale: -1.22822 Mean: 0.11697 Var: 0.0159166 ANS: 4531 quant_batch: 2048
+Beta!!!!!! file_index:57 Bias: -0.00198344 Scale: 0.000180623 Mean: 0.00453992 Var: 4.48808e-05 ANS: -4 quant_batch: 2048
+Beta!!!!!! file_index:58 Bias: 0.532929 Scale: -1.06048 Mean: -0.156835 Var: 0.0182078 ANS: -1432 quant_batch: 2048
+Beta!!!!!! file_index:59 Bias: 0.36274 Scale: -1.29245 Mean: 0.182069 Var: 0.0320441 ANS: 3435 quant_batch: 2048
+Beta!!!!!! file_index:60 Bias: 0.207421 Scale: -0.57274 Mean: 0.107663 Var: 0.00413191 ANS: 2389 quant_batch: 2048
+Beta!!!!!! file_index:61 Bias: -0.00259905 Scale: 1.25372e-05 Mean: 0.00454773 Var: 2.22366e-05 ANS: -5 quant_batch: 2048
+Beta!!!!!! file_index:62 Bias: 0.425203 Scale: -1.16568 Mean: -0.10195 Var: 0.0227024 ANS: -744 quant_batch: 2048
+Beta!!!!!! file_index:63 Bias: 0.447767 Scale: -0.331603 Mean: -0.0244358 Var: 0.00115422 ANS: 428 quant_batch: 2048
+Alpha!!!!!! file_index:64 Scale: 0.0303034 Var: 6.19462e-05 quant_batch: 11 ANS: 7885
+Alpha!!!!!! file_index:65 Scale: 0.0376586 Var: 4.89048e-05 quant_batch: 11 ANS: 11028
+Alpha!!!!!! file_index:66 Scale: 0.00233909 Var: 5.17524e-05 quant_batch: 11 ANS: 665
+Alpha!!!!!! file_index:67 Scale: -0.00171358 Var: 5.27407e-05 quant_batch: 11 ANS: -483
+Alpha!!!!!! file_index:68 Scale: -0.000471864 Var: 1.76998e-05 quant_batch: 11 ANS: -229
+Alpha!!!!!! file_index:69 Scale: 0.483755 Var: 0.00405274 quant_batch: 11 ANS: 15562
+Alpha!!!!!! file_index:70 Scale: 0.000601233 Var: 2.84029e-05 quant_batch: 11 ANS: 231
+Alpha!!!!!! file_index:71 Scale: -0.00133856 Var: 7.87379e-05 quant_batch: 11 ANS: -308
+Beta!!!!!! file_index:64 Bias: 0.321648 Scale: 0.0303034 Mean: -0.016175 Var: 6.19462e-05 ANS: 786 quant_batch: 2048
+Beta!!!!!! file_index:65 Bias: 0.171939 Scale: 0.0376586 Mean: -0.0147992 Var: 4.89048e-05 ANS: 515 quant_batch: 2048
+Beta!!!!!! file_index:66 Bias: -0.00151689 Scale: 0.00233909 Mean: -0.00362295 Var: 5.17524e-05 ANS: 0 quant_batch: 2048
+Beta!!!!!! file_index:67 Bias: 0.0118204 Scale: -0.00171358 Mean: -0.000135695 Var: 5.27407e-05 ANS: 24 quant_batch: 2048
+Beta!!!!!! file_index:68 Bias: -0.00142511 Scale: -0.000471864 Mean: -0.00401928 Var: 1.76998e-05 ANS: -3 quant_batch: 2048
+Beta!!!!!! file_index:69 Bias: 0.239087 Scale: 0.483755 Mean: -0.0226261 Var: 0.00405274 ANS: 841 quant_batch: 2048
+Beta!!!!!! file_index:70 Bias: -0.00502592 Scale: 0.000601233 Mean: 0.00123894 Var: 2.84029e-05 ANS: -10 quant_batch: 2048
+Beta!!!!!! file_index:71 Bias: -0.00197936 Scale: -0.00133856 Mean: -0.00272147 Var: 7.87379e-05 ANS: -4 quant_batch: 2048
+Alpha!!!!!! file_index:72 Scale: -0.2318 Var: 0.00152959 quant_batch: 11 ANS: -12138
+Alpha!!!!!! file_index:73 Scale: 0.000607422 Var: 3.401e-05 quant_batch: 11 ANS: 213
+Alpha!!!!!! file_index:74 Scale: -0.578329 Var: 0.00292551 quant_batch: 11 ANS: -21898
+Alpha!!!!!! file_index:75 Scale: -1.27201 Var: 0.0243271 quant_batch: 11 ANS: -16702
+Alpha!!!!!! file_index:76 Scale: 0.000584724 Var: 3.58913e-05 quant_batch: 11 ANS: 199
+Alpha!!!!!! file_index:77 Scale: -0.0892303 Var: 0.000141578 quant_batch: 11 ANS: -15358
+Alpha!!!!!! file_index:78 Scale: 0.0663259 Var: 5.77082e-05 quant_batch: 11 ANS: 17881
+Alpha!!!!!! file_index:79 Scale: 0.0012546 Var: 1.58177e-05 quant_batch: 11 ANS: 646
+Beta!!!!!! file_index:72 Bias: 0.0806607 Scale: -0.2318 Mean: 0.0338277 Var: 0.00152959 ANS: 575 quant_batch: 2048
+Beta!!!!!! file_index:73 Bias: -0.00509394 Scale: 0.000607422 Mean: 0.00480303 Var: 3.401e-05 ANS: -11 quant_batch: 2048
+Beta!!!!!! file_index:74 Bias: 0.465261 Scale: -0.578329 Mean: 0.00213625 Var: 0.00292551 ANS: 999 quant_batch: 2048
+Beta!!!!!! file_index:75 Bias: 0.735069 Scale: -1.27201 Mean: 0.0153021 Var: 0.0243271 ANS: 1761 quant_batch: 2048
+Beta!!!!!! file_index:76 Bias: -0.00267349 Scale: 0.000584724 Mean: -0.000859328 Var: 3.58913e-05 ANS: -5 quant_batch: 2048
+Beta!!!!!! file_index:77 Bias: 0.213893 Scale: -0.0892303 Mean: 0.0102148 Var: 0.000141578 ANS: 594 quant_batch: 2048
+Beta!!!!!! file_index:78 Bias: 0.0119807 Scale: 0.0663259 Mean: -0.0084836 Var: 5.77082e-05 ANS: 176 quant_batch: 2048
+Beta!!!!!! file_index:79 Bias: -0.00226833 Scale: 0.0012546 Mean: -0.00194877 Var: 1.58177e-05 ANS: -3 quant_batch: 2048
+Alpha!!!!!! file_index:80 Scale: -1.54165 Var: 0.0625624 quant_batch: 11 ANS: -12622
+Alpha!!!!!! file_index:81 Scale: -0.0350815 Var: 3.80352e-05 quant_batch: 11 ANS: -11649
+Alpha!!!!!! file_index:82 Scale: 1.31377 Var: 0.0212027 quant_batch: 11 ANS: 18477
+Alpha!!!!!! file_index:83 Scale: 0.306622 Var: 0.000925789 quant_batch: 11 ANS: 20638
+Alpha!!!!!! file_index:84 Scale: -1.45002 Var: 0.0533104 quant_batch: 11 ANS: -12861
+Alpha!!!!!! file_index:85 Scale: 0.0845857 Var: 0.0997814 quant_batch: 11 ANS: 548
+Alpha!!!!!! file_index:86 Scale: -0.0215862 Var: 9.02069e-05 quant_batch: 11 ANS: -4654
+Alpha!!!!!! file_index:87 Scale: -0.437996 Var: 0.00184962 quant_batch: 11 ANS: -20857
+Beta!!!!!! file_index:80 Bias: 1.49054 Scale: -1.54165 Mean: -0.224022 Var: 0.0625624 ANS: 224 quant_batch: 2048
+Beta!!!!!! file_index:81 Bias: 0.110639 Scale: -0.0350815 Mean: 0.0057252 Var: 3.80352e-05 ANS: 293 quant_batch: 2048
+Beta!!!!!! file_index:82 Bias: 1.24851 Scale: 1.31377 Mean: -0.0118709 Var: 0.0212027 ANS: 2776 quant_batch: 2048
+Beta!!!!!! file_index:83 Bias: 0.448274 Scale: 0.306622 Mean: -0.00544551 Var: 0.000925789 ANS: 1030 quant_batch: 2048
+Beta!!!!!! file_index:84 Bias: 0.693705 Scale: -1.45002 Mean: 0.0547721 Var: 0.0533104 ANS: 2125 quant_batch: 2048
+Beta!!!!!! file_index:85 Bias: 0.341399 Scale: 0.0845857 Mean: 0.330574 Var: 0.0997814 ANS: 517 quant_batch: 2048
+Beta!!!!!! file_index:86 Bias: 0.0279167 Scale: -0.0215862 Mean: 0.00667428 Var: 9.02069e-05 ANS: 88 quant_batch: 2048
+Beta!!!!!! file_index:87 Bias: 0.534217 Scale: -0.437996 Mean: -0.0362514 Var: 0.00184962 ANS: 337 quant_batch: 2048
+Alpha!!!!!! file_index:88 Scale: -0.350452 Var: 0.00163427 quant_batch: 11 ANS: -17753
+Alpha!!!!!! file_index:89 Scale: -0.463916 Var: 0.00295875 quant_batch: 11 ANS: -17466
+Alpha!!!!!! file_index:90 Scale: 0.0856191 Var: 0.00020704 quant_batch: 11 ANS: 12186
+Alpha!!!!!! file_index:91 Scale: 1.26106 Var: 0.0292511 quant_batch: 11 ANS: 15100
+Alpha!!!!!! file_index:92 Scale: -0.00816872 Var: 8.75221e-05 quant_batch: 11 ANS: -1788
+Alpha!!!!!! file_index:93 Scale: -6.29407e-05 Var: 0.000102591 quant_batch: 11 ANS: -12
+Alpha!!!!!! file_index:94 Scale: -0.110333 Var: 0.00026149 quant_batch: 11 ANS: -13973
+Alpha!!!!!! file_index:95 Scale: 0.0109507 Var: 8.49598e-05 quant_batch: 11 ANS: 2433
+Beta!!!!!! file_index:88 Bias: 0.342929 Scale: -0.350452 Mean: 0.0432785 Var: 0.00163427 ANS: 1470 quant_batch: 2048
+Beta!!!!!! file_index:89 Bias: 0.364261 Scale: -0.463916 Mean: 0.00924299 Var: 0.00295875 ANS: 907 quant_batch: 2048
+Beta!!!!!! file_index:90 Bias: 0.319905 Scale: 0.0856191 Mean: -0.033107 Var: 0.00020704 ANS: 1058 quant_batch: 2048
+Beta!!!!!! file_index:91 Bias: 0.813076 Scale: 1.26106 Mean: -0.00283201 Var: 0.0292511 ANS: 1707 quant_batch: 2048
+Beta!!!!!! file_index:92 Bias: 0.0777939 Scale: -0.00816872 Mean: -0.000129743 Var: 8.75221e-05 ANS: 159 quant_batch: 2048
+Beta!!!!!! file_index:93 Bias: -0.0061969 Scale: -6.29407e-05 Mean: -0.00926903 Var: 0.000102591 ANS: -12 quant_batch: 2048
+Beta!!!!!! file_index:94 Bias: 0.5302 Scale: -0.110333 Mean: 0.0289627 Var: 0.00026149 ANS: 1490 quant_batch: 2048
+Beta!!!!!! file_index:95 Bias: 0.0376835 Scale: 0.0109507 Mean: 0.00534268 Var: 8.49598e-05 ANS: 64 quant_batch: 2048
+Alpha!!!!!! file_index:96 Scale: -0.00128641 Var: 7.48737e-05 quant_batch: 11 ANS: -304
+Alpha!!!!!! file_index:97 Scale: -0.00472436 Var: 0.000102179 quant_batch: 11 ANS: -957
+Alpha!!!!!! file_index:98 Scale: -0.000252219 Var: 0.273326 quant_batch: 11 ANS: 0
+Alpha!!!!!! file_index:99 Scale: -0.00222542 Var: 1.8285e-05 quant_batch: 11 ANS: -1065
+Alpha!!!!!! file_index:100 Scale: -0.00242558 Var: 3.60115e-05 quant_batch: 11 ANS: -827
+Alpha!!!!!! file_index:101 Scale: -0.00114248 Var: 5.83699e-05 quant_batch: 11 ANS: -306
+Alpha!!!!!! file_index:102 Scale: -0.0212658 Var: 1.75412e-05 quant_batch: 11 ANS: -10398
+Alpha!!!!!! file_index:103 Scale: -0.0185671 Var: 2.14891e-05 quant_batch: 11 ANS: -8202
+Beta!!!!!! file_index:96 Bias: -0.000375369 Scale: -0.00128641 Mean: -0.0012849 Var: 7.48737e-05 ANS: -1 quant_batch: 2048
+Beta!!!!!! file_index:97 Bias: 0.0031512 Scale: -0.00472436 Mean: -0.00506606 Var: 0.000102179 ANS: 1 quant_batch: 2048
+Beta!!!!!! file_index:98 Bias: -0.00247191 Scale: -0.000252219 Mean: 0.144413 Var: 0.273326 ANS: -4 quant_batch: 2048
+Beta!!!!!! file_index:99 Bias: -0.00764378 Scale: -0.00222542 Mean: -0.00121206 Var: 1.8285e-05 ANS: -16 quant_batch: 2048
+Beta!!!!!! file_index:100 Bias: -0.0102476 Scale: -0.00242558 Mean: 0.00238428 Var: 3.60115e-05 ANS: -19 quant_batch: 2048
+Beta!!!!!! file_index:101 Bias: -0.00562993 Scale: -0.00114248 Mean: -0.00423697 Var: 5.83699e-05 ANS: -12 quant_batch: 2048
+Beta!!!!!! file_index:102 Bias: -0.00799786 Scale: -0.0212658 Mean: 0.00197815 Var: 1.75412e-05 ANS: 4 quant_batch: 2048
+Beta!!!!!! file_index:103 Bias: 0.0295313 Scale: -0.0185671 Mean: 0.00121268 Var: 2.14891e-05 ANS: 70 quant_batch: 2048
+Alpha!!!!!! file_index:104 Scale: 1.05443e-05 Var: 2.65618e-05 quant_batch: 11 ANS: 4
+Alpha!!!!!! file_index:105 Scale: 7.37574e-05 Var: 2.58264e-05 quant_batch: 11 ANS: 29
+Alpha!!!!!! file_index:106 Scale: -0.00184223 Var: 1.54682e-05 quant_batch: 11 ANS: -959
+Alpha!!!!!! file_index:107 Scale: 0.022201 Var: 3.49819e-05 quant_batch: 11 ANS: 7687
+Alpha!!!!!! file_index:108 Scale: 0.494231 Var: 0.0037762 quant_batch: 11 ANS: 16471
+Alpha!!!!!! file_index:109 Scale: 0.000510469 Var: 9.03216e-05 quant_batch: 11 ANS: 110
+Alpha!!!!!! file_index:110 Scale: -0.0225622 Var: 3.77231e-05 quant_batch: 11 ANS: -7523
+Alpha!!!!!! file_index:111 Scale: -1.38833 Var: 0.0153108 quant_batch: 11 ANS: -22978
+Beta!!!!!! file_index:104 Bias: -0.00278584 Scale: 1.05443e-05 Mean: 9.9414e-05 Var: 2.65618e-05 ANS: -5 quant_batch: 2048
+Beta!!!!!! file_index:105 Bias: -0.00332736 Scale: 7.37574e-05 Mean: -0.00417372 Var: 2.58264e-05 ANS: -6 quant_batch: 2048
+Beta!!!!!! file_index:106 Bias: -0.00134315 Scale: -0.00184223 Mean: -0.00380748 Var: 1.54682e-05 ANS: -6 quant_batch: 2048
+Beta!!!!!! file_index:107 Bias: 0.00221135 Scale: 0.022201 Mean: 9.5114e-05 Var: 3.49819e-05 ANS: 3 quant_batch: 2048
+Beta!!!!!! file_index:108 Bias: 0.000410419 Scale: 0.494231 Mean: -0.0515829 Var: 0.0037762 ANS: 850 quant_batch: 2048
+Beta!!!!!! file_index:109 Bias: -0.0048083 Scale: 0.000510469 Mean: -0.0061683 Var: 9.03216e-05 ANS: -9 quant_batch: 2048
+Beta!!!!!! file_index:110 Bias: 0.100356 Scale: -0.0225622 Mean: 0.00573698 Var: 3.77231e-05 ANS: 248 quant_batch: 2048
+Beta!!!!!! file_index:111 Bias: 0.475963 Scale: -1.38833 Mean: 0.109731 Var: 0.0153108 ANS: 3496 quant_batch: 2048
+Alpha!!!!!! file_index:112 Scale: -0.148756 Var: 0.000469864 quant_batch: 11 ANS: -14054
+Alpha!!!!!! file_index:113 Scale: -1.21526 Var: 0.0131057 quant_batch: 11 ANS: -21740
+Alpha!!!!!! file_index:114 Scale: -0.439491 Var: 0.00186548 quant_batch: 11 ANS: -20839
+Alpha!!!!!! file_index:115 Scale: -0.000169695 Var: 3.72538e-05 quant_batch: 11 ANS: -56
+Alpha!!!!!! file_index:116 Scale: 1.2504 Var: 0.0252506 quant_batch: 11 ANS: 16115
+Alpha!!!!!! file_index:117 Scale: 0.00647585 Var: 4.87538e-05 quant_batch: 11 ANS: 1899
+Alpha!!!!!! file_index:118 Scale: -0.000576508 Var: 3.37419e-05 quant_batch: 11 ANS: -203
+Alpha!!!!!! file_index:119 Scale: -0.875259 Var: 0.0101631 quant_batch: 11 ANS: -17780
+Beta!!!!!! file_index:112 Bias: 0.140811 Scale: -0.148756 Mean: -0.00466649 Var: 0.000469864 ANS: 222 quant_batch: 2048
+Beta!!!!!! file_index:113 Bias: 0.7417 Scale: -1.21526 Mean: 0.0485656 Var: 0.0131057 ANS: 2574 quant_batch: 2048
+Beta!!!!!! file_index:114 Bias: 0.143716 Scale: -0.439491 Mean: 0.00790732 Var: 0.00186548 ANS: 459 quant_batch: 2048
+Beta!!!!!! file_index:115 Bias: -0.000875201 Scale: -0.000169695 Mean: 0.00238439 Var: 3.72538e-05 ANS: -1 quant_batch: 2048
+Beta!!!!!! file_index:116 Bias: 1.16429 Scale: 1.2504 Mean: 0.119823 Var: 0.0252506 ANS: 453 quant_batch: 2048
+Beta!!!!!! file_index:117 Bias: -0.000106637 Scale: 0.00647585 Mean: 0.00629998 Var: 4.87538e-05 ANS: -12 quant_batch: 2048
+Beta!!!!!! file_index:118 Bias: -0.00438695 Scale: -0.000576508 Mean: -0.00626914 Var: 3.37419e-05 ANS: -10 quant_batch: 2048
+Beta!!!!!! file_index:119 Bias: 0.426758 Scale: -0.875259 Mean: 0.0445849 Var: 0.0101631 ANS: 1666 quant_batch: 2048
+Alpha!!!!!! file_index:120 Scale: -0.000729412 Var: 2.13534e-05 quant_batch: 11 ANS: -323
+Alpha!!!!!! file_index:121 Scale: -0.0044357 Var: 3.70438e-05 quant_batch: 11 ANS: -1492
+Alpha!!!!!! file_index:122 Scale: 9.2012e-05 Var: 2.45302e-05 quant_batch: 11 ANS: 38
+Alpha!!!!!! file_index:123 Scale: 0.0325643 Var: 3.93319e-05 quant_batch: 11 ANS: 10634
+Alpha!!!!!! file_index:124 Scale: -0.00781392 Var: 2.90948e-05 quant_batch: 11 ANS: -2966
+Alpha!!!!!! file_index:125 Scale: -1.27862 Var: 0.00791383 quant_batch: 11 ANS: -29436
+Alpha!!!!!! file_index:126 Scale: -0.000393199 Var: 2.7907e-05 quant_batch: 11 ANS: -152
+Alpha!!!!!! file_index:127 Scale: 0.00103748 Var: 1.24889e-05 quant_batch: 11 ANS: 601
+Beta!!!!!! file_index:120 Bias: -0.00207758 Scale: -0.000729412 Mean: 0.00454994 Var: 2.13534e-05 ANS: -2 quant_batch: 2048
+Beta!!!!!! file_index:121 Bias: 0.0020152 Scale: -0.0044357 Mean: -0.00329696 Var: 3.70438e-05 ANS: 0 quant_batch: 2048
+Beta!!!!!! file_index:122 Bias: -0.00239451 Scale: 9.2012e-05 Mean: 0.00391377 Var: 2.45302e-05 ANS: -5 quant_batch: 2048
+Beta!!!!!! file_index:123 Bias: 0.137588 Scale: 0.0325643 Mean: -0.00672249 Var: 3.93319e-05 ANS: 353 quant_batch: 2048
+Beta!!!!!! file_index:124 Bias: 0.00518639 Scale: -0.00781392 Mean: 0.00175019 Var: 2.90948e-05 ANS: 15 quant_batch: 2048
+Beta!!!!!! file_index:125 Bias: 0.575671 Scale: -1.27862 Mean: 0.150743 Var: 0.00791383 ANS: 5616 quant_batch: 2048
+Beta!!!!!! file_index:126 Bias: -0.00611105 Scale: -0.000393199 Mean: -0.00163197 Var: 2.7907e-05 ANS: -12 quant_batch: 2048
+Beta!!!!!! file_index:127 Bias: 0.0467394 Scale: 0.00103748 Mean: 0.000710277 Var: 1.24889e-05 ANS: 95 quant_batch: 2048
