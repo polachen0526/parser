@@ -1158,7 +1158,7 @@ void pstruct::weight_offset(std::vector<std::shared_ptr<pstruct>> &layer_info_da
                                 layer_info_data_pointer_vector[now_location]->Dense_size_input_y,
                                 layer_info_data_pointer_vector[now_location]->Dense_input_channel);
                     }
-                    else if(layer_info_data_pointer_vector[pre_location_vec[0]]->class_name=="LSTM"){
+                    else if(layer_info_data_pointer_vector[pre_location_vec[0]]->class_name=="LSTM"){ //TODO 20220510 solve the pre_node is LSTM you need change to 2D
                         layer_info_data_pointer_vector[now_location]->IF_PRE_NODE_IS_LSTM = true;
                         layer_info_data_pointer_vector[now_location]->Dense_size_input_x = (MAX_TILE_SIZE > ifs_x) ? ifs_x : MAX_TILE_SIZE;
                         layer_info_data_pointer_vector[now_location]->Dense_size_input_y = (MAX_TILE_SIZE > ifs_y) ? ifs_y : MAX_TILE_SIZE;
@@ -2195,15 +2195,15 @@ std::vector<uint32_t> pstruct::Gen_Layer_Info(std::shared_ptr<pstruct> &merge_no
     Inst[3] |= (output_feature_offset&0xfff)<<17;//input_feature_offset
     // u got four type 000 is conv_mode，001 is FC_mode，010 is DWS_mode，011 is DE_CONV_mode 100 is LSTM_mode
     if(merge_node->class_name=="Dense"){
-        Inst[3] |= 001&0b111 << 29;
+        Inst[3] |= (0b001&0b111) << 29;
     }else if(merge_node->class_name=="DWS_mode"){
-        Inst[3] |= 010&0b111 << 29;
+        Inst[3] |= (0b010&0b111) << 29;
     }else if(merge_node->class_name=="DE_CONV_mode"){
-        Inst[3] |= 011&0b111 << 29;
+        Inst[3] |= (0b011&0b111) << 29;
     }else if(merge_node->class_name=="LSTM"){
-        Inst[3] |= 100&0b111 << 29;
+        Inst[3] |= (0b100&0b111) << 29;
     }else{
-        Inst[3] |= 000&0b111 << 29;
+        Inst[3] |= (0b000&0b111) << 29;
     }
     Inst[4] = (merge_node->Concat_output_control&0b1);
     Inst[4] |= (merge_node->pooling_quant_finish&0b111111)<<1;
@@ -2800,6 +2800,7 @@ template <typename A> std::ostream & operator<<(std::ostream & os,const std::vec
             os<<counter<<" "<<"kernel_size             "<<elem->kernel_size<<"\n";
             os<<counter<<" "<<"CHECK IF YOUR KERNEL SIZE IS TO THREE"<<"\n";
         }
+        os<<counter<<" "<<"kernel_size             "<<elem->kernel_size<<"\n";
         os<<counter<<" "<<"kernel_stride_x         "<<elem->kernel_stride_x<<"\n";
         os<<counter<<" "<<"kernel_stride_y         "<<elem->kernel_stride_y<<"\n";
         os<<counter<<" "<<"padding                 "<<elem->padding<<"\n";
